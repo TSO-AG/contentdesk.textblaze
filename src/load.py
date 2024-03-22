@@ -36,7 +36,26 @@ def createRow(data):
     )
     return request.json()
 
+# delete all rows in Blaze Table
+def deleteAllRows():
+    url = f"https://data-api.blaze.today/api/database/{BLAZE_TABLE_ID}/query/"
+
+    request = requests.post(
+        url,
+        headers={
+            "Authorization": f"Token {BLAZE_TOKEN}",
+            "Content-Type": "application/json"
+        },
+        json={
+            "query": "DELETE FROM PIM Test Data"
+        }
+    )
+    return request.json()
+
 def load(data):
+    # Clear all rows in Blaze Table
+    deleteAllRows()
+    # Load all rows in Blaze Table
     for product in data:
         response = createRow(product)
         print(response)
