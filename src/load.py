@@ -16,7 +16,7 @@ def createRow(data):
   request = requests.post(
     url,
     headers={
-        "Authorization": "Token "+{BLAZE_TOKEN},
+        "Authorization": f"Token {BLAZE_TOKEN}",
         "Content-Type": "application/json"
     },
     json={
