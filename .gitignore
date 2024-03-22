@@ -1,0 +1,7 @@
+.env*
+src/__pycache__/*
+*__pycache__/*
+output.xml
+src/env.Github.py
+src/env
+src/env/*
