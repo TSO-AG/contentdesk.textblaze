@@ -17,6 +17,9 @@ def createRow(data):
         data['values']['disambiguatingDescription'] = [{'data': ''}]
     if 'description' not in data['values']:
         data['values']['description'] = [{'data': ''}]
+    if 'name' not in data['values']:
+        return 
+        #data['values']['name'] = [{'data': ''}]
 
     request = requests.post(
         url,
