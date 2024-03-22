@@ -9,7 +9,6 @@ BLAZE_DATABASE_ID = getenv('BLAZE_DATABASE_ID')
 BLAZE_TOKEN = getenv('BLAZE_TOKEN')
 BLAZE_TABLE_ID = getenv('BLAZE_TABLE_ID')
 
-
 # Create Row in Blaze Table
 def createRow(data):
   url = f"https://data-api.blaze.today/api/database/rows/table/{BLAZE_TABLE_ID}/?user_field_names=true"
@@ -17,7 +16,7 @@ def createRow(data):
   request = requests.post(
     url,
     headers={
-        "Authorization": "Token {BLAZE_TABLE_ID}",
+        "Authorization": "Token "+{BLAZE_TOKEN},
         "Content-Type": "application/json"
     },
     json={
