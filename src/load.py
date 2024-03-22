@@ -23,7 +23,7 @@ def createRow(data):
     json={
         "sku": data['identifier'],
         "name": data['values']['name'][0]['data'],
-        "shortDescription": data['values']['shortDescription'][0]['data'],
+        "disambiguatingDescription": data['values']['disambiguatingDescription'][0]['data'],
         "description": data['values']['description'][0]['data']
     }
   )
