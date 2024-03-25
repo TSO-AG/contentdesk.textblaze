@@ -53,7 +53,7 @@ def createRow(data):
             "sku": data['identifier'],
             "name": data['values']['name'][0]['data'],
             "disambiguatingDescription": data['values']['disambiguatingDescription'][0]['data'],
-            "description": data['values']['description'][0]['data']
+            "description": data['values']['description'][0]['data'],
             "legalName": data['values']['legalName'][0]['data'],
             "streetAddress": data['values']['streetAddress'][0]['data'],
             "addressLocality": data['values']['addressLocality'][0]['data'],
@@ -83,7 +83,7 @@ def whileLoopListofRow(data):
     nextpage = True
     print("While loop to get all rows")
     nextLink = data['next']
-    dataList += nextPage(data)['results']
+    dataList += data['results']
     nextData = data
     while nextpage:
         print("Next page True")
