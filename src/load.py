@@ -13,13 +13,33 @@ BLAZE_TABLE_ID = getenv('BLAZE_TABLE_ID')
 def createRow(data):
     url = f"https://data-api.blaze.today/api/database/rows/table/{BLAZE_TABLE_ID}/?user_field_names=true"
 
+    if 'name' not in data['values']:
+        return 
+        #data['values']['name'] = [{'data': ''}]
     if 'disambiguatingDescription' not in data['values']:
         data['values']['disambiguatingDescription'] = [{'data': ''}]
     if 'description' not in data['values']:
         data['values']['description'] = [{'data': ''}]
-    if 'name' not in data['values']:
-        return 
-        #data['values']['name'] = [{'data': ''}]
+    if 'legalName' not in data['values']:
+        data['values']['legalName'] = [{'data': ''}]
+    if 'streetAddress' not in data['values']:
+        data['values']['streetAddress'] = [{'data': ''}]
+    if 'addressLocality' not in data['values']:
+        data['values']['addressLocality'] = [{'data': ''}]
+    if 'postalCode' not in data['values']:
+        data['values']['postalCode'] = [{'data': ''}]
+    if 'givenName' not in data['values']:
+        data['values']['givenName'] = [{'data': ''}]
+    if 'familyName' not in data['values']:
+        data['values']['familyName'] = [{'data': ''}]
+    if 'email' not in data['values']:
+        data['values']['email'] = [{'data': ''}]
+    if 'telephone' not in data['values']:
+        data['values']['telephone'] = [{'data': ''}]
+    if 'url' not in data['values']:
+        data['values']['url'] = [{'data': ''}]
+    if 'image' not in data['values']:
+        data['values']['image'] = [{'data': ''}]
 
     request = requests.post(
         url,
@@ -32,6 +52,16 @@ def createRow(data):
             "name": data['values']['name'][0]['data'],
             "disambiguatingDescription": data['values']['disambiguatingDescription'][0]['data'],
             "description": data['values']['description'][0]['data']
+            "legalName": data['values']['legalName'][0]['data'],
+            "streetAddress": data['values']['streetAddress'][0]['data'],
+            "addressLocality": data['values']['addressLocality'][0]['data'],
+            "postalCode": data['values']['postalCode'][0]['data'],
+            "givenName": data['values']['givenName'][0]['data'],
+            "familyName": data['values']['familyName'][0]['data'],
+            "email": data['values']['email'][0]['data'],
+            "telephone": data['values']['telephone'][0]['data'],
+            "url": data['values']['url'][0]['data'],
+            "image": data['values']['image'][0]['data']
         }
     )
     return request.json()
