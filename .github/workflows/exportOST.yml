@@ -1,0 +1,68 @@
+name: Export OST
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "30 11,19 * * *"
+
+env:
+  AKENEO_HOST: ${{ secrets.AKENEO_HOST }}
+  AKENEO_CLIENT_ID: ${{ secrets.AKENEO_CLIENT_ID }}
+  AKENEO_CLIENT_SECRET: ${{ secrets.AKENEO_CLIENT_SECRET }}
+  AKENEO_USERNAME: ${{ secrets.AKENEO_USERNAME }}
+  AKENEO_PASSWORD: ${{ secrets.AKENEO_PASSWORD }}
+  S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
+  S3_BUCKET: ${{ secrets.S3_BUCKET }}
+  S3_REGION: ${{ secrets.S3_REGION }}
+  S3_ACCESS_KEY: ${{ secrets.S3_ACCESS_KEY }}
+  S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
+  S3_EXPORT_PATH: ${{ secrets.S3_EXPORT_PATH }}
+  CDN_ENDPOINT: ${{ secrets.CDN_ENDPOINT }}
+  BLAZE_DATABASE_ID: ${{ secrets.BLAZE_DATABASE_ID }}
+  BLAZE_TOKEN: ${{ secrets.BLAZE_TOKEN }}
+  BLAZE_TABLE_ID: ${{ secrets.BLAZE_TABLE_ID }}
+
+jobs:
+  deploy:
+    environment: ost
+    name: Run Full Export ost 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Create Virtual Environment
+        run: |
+            echo "${{ secrets.AKENEO_HOST }}" > .env
+            echo "${{ secrets.AKENEO_CLIENT_ID }}" > .env
+            echo "${{ secrets.AKENEO_CLIENT_SECRET }}" > .env
+            echo "${{ secrets.AKENEO_USERNAME }}" > .env
+            echo "${{ secrets.AKENEO_PASSWORD }}" > .env
+            echo "${{ secrets.S3_ENDPOINT }}" > .env
+            echo "${{ secrets.S3_BUCKET }}" > .env
+            echo "${{ secrets.S3_REGION }}" > .env
+            echo "${{ secrets.S3_ACCESS_KEY }}" > .env
+            echo "${{ secrets.S3_SECRET_ACCESS_KEY }}" > .env
+            echo "${{ secrets.S3_EXPORT_PATH }}" > .env
+            echo "${{ secrets.CDN_ENDPOINT }}" > .env
+            echo "${{ secrets.BLAZE_DATABASE_ID }}" > .env
+            echo "${{ secrets.BLAZE_TOKEN }}" > .env
+            echo "${{ secrets.BLAZE_TABLE_ID }}" > .env
+      - name: Install python-dotenv
+        run: pip install python-dotenv
+      - name: Install boto3
+        run: pip install boto3
+      - name: Install requests
+        run: pip install requests
+      - name: Install oauthlib
+        run: pip install oauthlib
+      - name: Install requests_oauthlib
+        run: pip install requests_oauthlib
+      - name: Install validators
+        run: pip install validators
+      - name: Install akeneo
+        run: pip install -i https://test.pypi.org/simple/ akeneo
+      - name: Run Script
+        working-directory: ./src
+        run: python fullExport.py
