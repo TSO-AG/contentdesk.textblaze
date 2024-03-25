@@ -36,21 +36,70 @@ def createRow(data):
     )
     return request.json()
 
-# delete all rows in Blaze Table
-def deleteAllRows():
-    url = f"https://data-api.blaze.today/api/database/{BLAZE_TABLE_ID}/query/"
-
-    request = requests.post(
+def nextPage(data):
+    url = data['next']
+    request = requests.get(
         url,
         headers={
             "Authorization": f"Token {BLAZE_TOKEN}",
-            "Content-Type": "application/json"
-        },
-        json={
-            "query": "DELETE FROM PIM Test Data"
         }
     )
     return request.json()
+
+def whileLoopListofRow(data):
+    dataList = []
+    nextpage = True
+    print("While loop to get all rows")
+    nextLink = data['next']
+    dataList += nextPage(data)['results']
+    nextData = data
+    while nextpage:
+        print("Next page True")
+        print(nextLink)
+        if nextLink:
+            #print(data['results'])
+            nextData = nextPage(nextData)
+            dataList += nextData['results']
+            if 'next' not in nextData:
+                nextpage = False
+            else:
+                nextLink = nextData['next']
+        else:
+            nextpage = False
+    return dataList
+
+def getListofRow():
+    print("Getting all rows")
+    url = f"https://data-api.blaze.today/api/database/rows/table/{BLAZE_TABLE_ID}/?user_field_names=true"
+    request = requests.get(
+        url,
+        headers={
+            "Authorization": f"Token {BLAZE_TOKEN}",
+        }
+    )
+    # Add all rows to a list
+    respons = request.json()
+    print("Start While loop to get all rows")
+    data = whileLoopListofRow(respons)
+    print(data)
+    return data
+
+# delete all rows in Blaze Table
+def deleteAllRows():
+    print("Start: Task to delete all rows in Blaze Table")
+    rawList = getListofRow()
+    print("Start: For loop to delete all rows in Blaze Table")
+    for row in rawList:
+        deleteRow(row['id'])
+
+def deleteRow(rowId):
+    url = f"https://data-api.blaze.today/api/database/rows/table/{BLAZE_TABLE_ID}/{rowId}/"
+    requests.delete(
+        url,
+        headers={
+            "Authorization": f"Token {BLAZE_TOKEN}"
+        }
+    )
 
 def load(data):
     # Clear all rows in Blaze Table
