@@ -176,10 +176,11 @@ def load(data):
     #deleteAllRows()
     # Load all rows in Blaze Table
     for product in data:
-        id = findRaw(product)
-        if id:
-            print(f"Row already exists: {id}")
-            response = updateRow(product)
-        else:
-            response = createRow(product)
-        print(response)
+        response = createRow(product)
+        #id = findRaw(product)
+        #if id:
+        #    print(f"Row already exists: {id}")
+        #    response = updateRow(product)
+        #else:
+        #    response = createRow(product)
+        #print(response)
