@@ -73,6 +73,8 @@ def findRaw(data):
             "query": "SELECT id FROM pimTestData WHERE sku = " + sku
         }
     )
+    print(response)
+    print(response['results'])
     return response['results']
 
 # Update Row in Blaze Table
