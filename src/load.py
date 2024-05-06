@@ -70,11 +70,11 @@ def findRaw(data):
             "Content-Type": "application/json"
         },
         json={
-            "query": "SELECT id FROM pimTestData WHERE sku = " + sku
+            "query": "UPDATE pimTestData SET sku="+data['identifier']+", name="+data['values']['name'][0]['data']+" WHERE sku = " + sku
         }
     )
     print(response)
-    print(response['results'])
+    print(response.json())
     return response['results']
 
 # Update Row in Blaze Table
